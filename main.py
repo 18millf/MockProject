@@ -1,19 +1,33 @@
 import pygame
 from pygame.time import Clock
-from pygame import Surface
+from pygame import Surface, Rect
 from math import sin, cos
+
+from display import SCREEN_WIDTH, SCREEN_HEIGHT
+from game_objects import GameObjects
+
+from game.boundary_box import BoundaryBox
+
+BOX_WIDTH: int = 550
+BOX_HEIGHT: int = 730
+
+BOX_POS_X: int = (SCREEN_WIDTH // 2) - (BOX_WIDTH // 2)
+BOX_POS_Y: int = (SCREEN_HEIGHT // 2) - (BOX_HEIGHT // 2)
 
 def main():
     pygame.init()
     pygame.font.init()
 
-    screen: Surface = pygame.display.set_mode((1280, 720))
+    screen: Surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock: Clock = pygame.time.Clock()
     running: bool = True
 
-    text_font = pygame.font.SysFont("LiberationSerif", 45)
+    GameObjects.game_objects = [
+        BoundaryBox(screen)
+    ]
 
-    circle_rect = pygame.rect.Rect(0, 0, 0, 0)
+    for object in GameObjects.game_objects:
+            object.start()
 
     while running:
         for event in pygame.event.get():
@@ -22,21 +36,14 @@ def main():
 
         screen.fill("#222222")
 
-        text_surface = text_font.render("Hello World!", True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(640, 360))
+        for object in GameObjects.game_objects:
+            object.update()
 
-        circle_rect = pygame.draw.circle(screen, (255, 255, 255), circle_rect.center, 50)
-        (pos_x, pos_y) = circle_rect.center
-        pos_x -= 640
-        pos_y -= 360
-        pos_x = int(pos_x * cos(0.1) - pos_y * sin(0.1))
-        pos_y = int(pos_x * sin(0.1) + pos_y * sin(0.1))
-        pos_x += 640
-        pos_y += 360
+        # Pedal 1
+        pygame.draw.rect(screen, "#2ea4d9", Rect(BOX_POS_X + 10, BOX_POS_Y + 600, 115, 5))
 
-        circle_rect.center = (pos_x, pos_y)
-
-        screen.blit(text_surface, text_rect)
+        # Pedal 2
+        pygame.draw.rect(screen, "#d13f41", Rect(BOX_POS_X + BOX_WIDTH - 125, BOX_POS_Y + 600, 115, 5))
 
         pygame.display.flip()
 

@@ -1,0 +1,2 @@
+SCREEN_WIDTH: int = 1024
+SCREEN_HEIGHT: int = 768
