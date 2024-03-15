@@ -4,6 +4,7 @@ from pygame import Surface, Rect
 from math import sin, cos
 
 from display import SCREEN_WIDTH, SCREEN_HEIGHT
+from game.red_pedal import RedPedal
 from game_objects import GameObjects
 
 from game.boundary_box import BoundaryBox
@@ -14,6 +15,8 @@ BOX_HEIGHT: int = 730
 BOX_POS_X: int = (SCREEN_WIDTH // 2) - (BOX_WIDTH // 2)
 BOX_POS_Y: int = (SCREEN_HEIGHT // 2) - (BOX_HEIGHT // 2)
 
+MAX_FRAME_RATE: int = 60
+
 def main():
     pygame.init()
     pygame.font.init()
@@ -23,7 +26,8 @@ def main():
     running: bool = True
 
     GameObjects.game_objects = [
-        BoundaryBox(screen)
+        BoundaryBox(screen),
+        RedPedal(screen)
     ]
 
     for object in GameObjects.game_objects:
@@ -36,18 +40,16 @@ def main():
 
         screen.fill("#222222")
 
-        for object in GameObjects.game_objects:
-            object.update()
+        delta: float = clock.tick(MAX_FRAME_RATE) / 1000
 
-        # Pedal 1
-        pygame.draw.rect(screen, "#2ea4d9", Rect(BOX_POS_X + 10, BOX_POS_Y + 600, 115, 5))
+        for object in GameObjects.game_objects:
+            object.update(delta)
 
         # Pedal 2
         pygame.draw.rect(screen, "#d13f41", Rect(BOX_POS_X + BOX_WIDTH - 125, BOX_POS_Y + 600, 115, 5))
 
         pygame.display.flip()
 
-        clock.tick(60)
 
     pygame.quit()
 

@@ -7,5 +7,5 @@ class DrawableObject():
     def start(self):
         pass
 
-    def update(self):
+    def update(self, delta: float):
         pass

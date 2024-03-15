@@ -1,5 +1,5 @@
 from drawable_object import DrawableObject
-from vector2 import Vector2
+from pygame.math import Vector2
 from display import SCREEN_WIDTH, SCREEN_HEIGHT
 
 import pygame
@@ -15,7 +15,7 @@ class BoundaryBox(DrawableObject):
             (SCREEN_HEIGHT // 2) - (BoundaryBox.BOX_HEIGHT // 2)
             )
 
-    def update(self):
+    def update(self, _: float):
         pygame.draw.rect(
             self.screen, 
             (255, 255, 255), 
