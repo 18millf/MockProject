@@ -7,7 +7,7 @@ class BluePedal(Pedal):
     def start(self):
         super().start()
 
-        self.color = "#2ea4d9"
+        self.color = "#d13f41"
 
         self.forward_key = K_UP
         self.left_key = K_LEFT

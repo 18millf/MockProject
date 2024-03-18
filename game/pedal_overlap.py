@@ -14,25 +14,29 @@ class PedalOverlap(DrawableObject):
 
         self.red_pedal: RedPedal = GameObjects.get(RedPedal)
         self.blue_pedal: BluePedal = GameObjects.get(BluePedal)
-        self.pedal_length = Pedal.PEDAL_LENGTH
-        self.pedal_radius = Pedal.PEDAL_RADIUS
 
         print("aaaaaa")
         print(self.red_pedal)
 
     def update(self, delta: float):
-        red_pos: Vector2 = self.red_pedal.position
-        blue_pos: Vector2 = self.blue_pedal.position
+        red_pos = self.red_pedal.position
+        blue_pos = self.blue_pedal.position
 
-        red_mid: Vector2 = red_pos + Vector2(self.pedal_radius, 0)
-        blue_mid: Vector2 = blue_pos + Vector2(self.pedal_radius, 0)
+        pedal_length = Pedal.PEDAL_LENGTH
 
-        blue_end_x = blue_pos.x + self.pedal_length
-        red_end_x = red_pos.x + self.pedal_length
+        red_min = red_pos.x
+        red_max = red_min + pedal_length
+        blue_min = blue_pos.x
+        blue_max = blue_min + pedal_length
 
-        overlap_length: float = max(0, min(blue_end_x, red_end_x) - max(blue_pos.x, red_pos.x))
-        overlap_radius: float = overlap_length / 2
+        overlap_length = max(0, min(red_max, blue_max) - max(red_min, blue_min))
 
-        mid_point: Vector2 = ((red_mid + blue_mid) - Vector2(overlap_radius, 0)) / 2
+        pedal_radius = Pedal.PEDAL_RADIUS
 
-        pygame.draw.rect(self.screen, self.color, Rect(mid_point.x, mid_point.y, overlap_length, 5))
+        red_mid = red_pos + (pedal_radius, 0)
+        blue_mid = blue_pos + (pedal_radius, 0)
+
+        overlap_mid = (red_mid + blue_mid) / 2
+        overlap_pos = overlap_mid - (overlap_length / 2, 0)
+
+        pygame.draw.rect(self.screen, self.color, Rect(overlap_pos, Vector2(overlap_length, 5)))

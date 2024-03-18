@@ -1,7 +1,6 @@
 import pygame
 from pygame.time import Clock
-from pygame import Surface, Rect
-from math import sin, cos
+from pygame import Surface, Rect, Vector2
 
 from display import SCREEN_WIDTH, SCREEN_HEIGHT
 from game.blue_pedal import BluePedal
@@ -10,14 +9,12 @@ from game.red_pedal import RedPedal
 from game_objects import GameObjects
 
 from game.boundary_box import BoundaryBox
+from physics_object import PhysicsObject
 
 BOX_WIDTH: int = 550
 BOX_HEIGHT: int = 730
 
-BOX_POS_X: int = (SCREEN_WIDTH // 2) - (BOX_WIDTH // 2)
-BOX_POS_Y: int = (SCREEN_HEIGHT // 2) - (BOX_HEIGHT // 2)
-
-MAX_FRAME_RATE: int = 60
+MAX_FRAME_RATE: int = 120
 
 def main():
     pygame.init()
@@ -35,7 +32,12 @@ def main():
     ]
 
     for object in GameObjects.game_objects:
+            if isinstance(object, PhysicsObject):
+                GameObjects.physics_objects.append(object)
+
             object.start()
+
+    phys_timer: float = 0
 
     while running:
         for event in pygame.event.get():
@@ -44,7 +46,17 @@ def main():
 
         screen.fill("#222222")
 
-        delta: float = clock.tick(MAX_FRAME_RATE) / 1000
+        delta: float = clock.tick_busy_loop(MAX_FRAME_RATE) / 1000
+
+        phys_timer += delta
+
+        print(phys_timer)
+
+        if (phys_timer >= PhysicsObject.fixed_delta):
+            for phys_object in GameObjects.physics_objects:
+                phys_object.physics_process()
+
+            phys_timer = 0
 
         for object in GameObjects.game_objects:
             object.update(delta)

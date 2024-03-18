@@ -6,7 +6,7 @@ class RedPedal(Pedal):
     def start(self):
         super().start()
 
-        self.color = "#d13f41"
+        self.color = "#2ea4d9"
 
         self.forward_key = K_w
         self.left_key = K_a

@@ -9,10 +9,10 @@ from pygame.math import clamp
 import pygame
 
 class Pedal(DrawableObject):
-    PEDAL_LENGTH: int = 115
-    PEDAL_RADIUS: int = 115 // 2
+    PEDAL_LENGTH: int = 116
+    PEDAL_RADIUS: int = 116 // 2
 
-    SENSITIVITY: int = 180
+    SENSITIVITY: int = 400
 
     def start(self):
         self.color: Color = Color(255, 255, 255)
