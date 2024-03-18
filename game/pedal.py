@@ -12,15 +12,15 @@ class Pedal(DrawableObject):
     PEDAL_LENGTH: int = 115
     PEDAL_RADIUS: int = 115 // 2
 
-    SENSITIVITY: int = 60
+    SENSITIVITY: int = 180
 
     def start(self):
         self.color: Color = Color(255, 255, 255)
 
         self.boundary_box: BoundaryBox = GameObjects.get(BoundaryBox)
 
-        self.left_boundary: int = self.boundary_box.position.x + Pedal.PEDAL_RADIUS;
-        self.right_boundary: int = self.boundary_box.position.x + BoundaryBox.BOX_WIDTH - Pedal.PEDAL_RADIUS
+        self.left_boundary: int = self.boundary_box.position.x + BoundaryBox.BOX_THICKNESS
+        self.right_boundary: int = self.boundary_box.position.x + BoundaryBox.BOX_WIDTH - Pedal.PEDAL_LENGTH - BoundaryBox.BOX_THICKNESS
 
         self.forward_key: int
         self.backward_key: int
@@ -29,12 +29,12 @@ class Pedal(DrawableObject):
 
         self.position: Vector2 = Vector2
 
+        print(self)
+
     def update(self, delta: float):
         keys = get_pressed()
 
         x_position: int = self.position.x
-
-        # FIXME: broken boundary calculation
 
         if keys[self.left_key]:
             x_position -= Pedal.SENSITIVITY * delta

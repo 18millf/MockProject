@@ -8,6 +8,7 @@ from pygame import Rect
 class BoundaryBox(DrawableObject):
     BOX_WIDTH: int = 550
     BOX_HEIGHT: int = 730
+    BOX_THICKNESS: int = 5
     
     def start(self):
         self.position: Vector2 = Vector2(
