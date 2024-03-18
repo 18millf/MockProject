@@ -4,6 +4,8 @@ from pygame import Surface, Rect
 from math import sin, cos
 
 from display import SCREEN_WIDTH, SCREEN_HEIGHT
+from game.blue_pedal import BluePedal
+from game.pedal_overlap import PedalOverlap
 from game.red_pedal import RedPedal
 from game_objects import GameObjects
 
@@ -27,7 +29,9 @@ def main():
 
     GameObjects.game_objects = [
         BoundaryBox(screen),
-        RedPedal(screen)
+        RedPedal(screen),
+        BluePedal(screen),
+        PedalOverlap(screen),
     ]
 
     for object in GameObjects.game_objects:
@@ -44,9 +48,6 @@ def main():
 
         for object in GameObjects.game_objects:
             object.update(delta)
-
-        # Pedal 2
-        pygame.draw.rect(screen, "#d13f41", Rect(BOX_POS_X + BOX_WIDTH - 125, BOX_POS_Y + 600, 115, 5))
 
         pygame.display.flip()
 
