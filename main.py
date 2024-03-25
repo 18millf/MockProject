@@ -6,6 +6,7 @@ from display import SCREEN_WIDTH, SCREEN_HEIGHT
 from game.blue_pedal import BluePedal
 from game.pedal_overlap import PedalOverlap
 from game.red_pedal import RedPedal
+from game.ball import Ball
 from game_objects import GameObjects
 
 from game.boundary_box import BoundaryBox
@@ -29,6 +30,7 @@ def main():
         RedPedal(screen),
         BluePedal(screen),
         PedalOverlap(screen),
+        Ball(screen),
     ]
 
     for object in GameObjects.game_objects:
@@ -49,8 +51,6 @@ def main():
         delta: float = clock.tick_busy_loop(MAX_FRAME_RATE) / 1000
 
         phys_timer += delta
-
-        print(phys_timer)
 
         if (phys_timer >= PhysicsObject.fixed_delta):
             for phys_object in GameObjects.physics_objects:

@@ -15,13 +15,15 @@ class BoundaryBox(DrawableObject):
             (SCREEN_WIDTH // 2) - (BoundaryBox.BOX_WIDTH // 2),
             (SCREEN_HEIGHT // 2) - (BoundaryBox.BOX_HEIGHT // 2)
             )
+        
+        self.rect: Rect = Rect(self.position.x, self.position.y,
+                 BoundaryBox.BOX_WIDTH, BoundaryBox.BOX_HEIGHT
+                 )
 
     def update(self, _: float):
         pygame.draw.rect(
             self.screen, 
             (255, 255, 255), 
-            Rect(self.position.x, self.position.y,
-                 BoundaryBox.BOX_WIDTH, BoundaryBox.BOX_HEIGHT
-                 ),
+            self.rect,
             5
             )
